@@ -33,7 +33,7 @@ public class UrlService {
 	
 	/**
 	 * 
-	 * @return result общее количество запросов
+	 * @return result total count of requests
 	 */
 	public int getAllUrlCount(){
 		int result = ((Number)em.createNamedQuery("Url.getUrlCount").getSingleResult()).intValue();
@@ -42,7 +42,7 @@ public class UrlService {
 	
 	/**
 	 * 
-	 * @return result количество уникальных запросов (по одному на IP)
+	 * @return result number of unique requests
 	 */
 	public int getUniqueUrl(){
 		Query query = em.createNativeQuery("SELECT COUNT(*) FROM (SELECT DISTINCT url From url) AS unique_tb");
@@ -52,8 +52,7 @@ public class UrlService {
 	
 	/**
 	 * 
-	 * @return result счетчик запросов на каждый IP, кол-во запросов, 
-	 * время последнего запроса
+	 * @return result counter of requests for each IP 
 	 */
 	@SuppressWarnings("rawtypes")
 	public List requestCounter(){
@@ -64,7 +63,7 @@ public class UrlService {
 	
 	/**
 	 * 
-	 * @return result количество переадресаций по url
+	 * @return result number of redirections for URLs
 	 */
 	@SuppressWarnings("rawtypes")
 	public List urlCounter(){

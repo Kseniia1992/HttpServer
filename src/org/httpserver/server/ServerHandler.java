@@ -26,16 +26,15 @@ import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpHeaders.Values;
 
 /**
- * Обработчик http запросов
+ * Handler of http requests
  * @author Kseniia
  *
  */
 public class ServerHandler extends ChannelInboundHandlerAdapter {
 		 		 
 	/**
-	 * ChannelHandlerContext позволяет обработчику взаимодействовать 
-	 * с другими обработчиками 
-	 * 
+	 * ChannelHandlerContext allows the handler to communicate 
+	 * with other handlers 
 	 */
 	@Override
      public void channelReadComplete(ChannelHandlerContext ctx) {
@@ -43,55 +42,54 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
      }
  	
 	/**
-	 * Метод - обработчик запросов.
-	 * По запросу на http://somedomain/hello отдает «Hello World».
-	 * По запросу на http://somedomain/redirect?url=<url> происходит 
-	 * переадресация на указанный url.
-	 * По запросу на http://somedomain/status выдается статистика:
-	 * общее количество запросов;
-	 * количество уникальных запросов (по одному на IP);
-	 * счетчик запросов на каждый IP в виде таблицы с колонкам и IP,
-	 * кол-во запросов, время последнего запроса;
-	 * количество переадресаций по url'ам в виде таблицы, 
-	 * с колонками url, кол-во переадресация
-	 * количество соединений, открытых в данный момент
+	 * Handler of requests.
+	 * On request at http: //somedomain/hello gives «Hello World».
+	 * On request at http://somedomain/redirect?url=<url> redirects
+	 * to the specified url.
+	 * On request at http://somedomain/status gives statistics:
+	 * total number of requests;
+	 * number of unique requests;
+	 * counter of requests for each IP as a table with columns: IP,
+	 * number of requests, the last time of the request;
+	 * number of redirections for URLs as a table with columns: url,
+	 * number of redirections;
+	 * the number of currently opened connections.
 	 */
     @SuppressWarnings("rawtypes")
 	@Override
-     public void channelRead(ChannelHandlerContext ctx, Object msg) throws IOException{
-    	 // Если объект HttpRequest, записать его в значение запроса.
+     public void channelRead(ChannelHandlerContext ctx, Object msg) throws IOException{    	 
     	 if (msg instanceof HttpRequest) {
     		   HttpRequest req = (HttpRequest) msg;
     		  
-    		   String url = req.getUri();     //получить url
-    		   SocketAddress remoteAddress = ctx.channel().remoteAddress(); //получить IP
+    		   String url = req.getUri();     //getting url
+    		   SocketAddress remoteAddress = ctx.channel().remoteAddress(); //getting ip
     		   String ip = remoteAddress.toString().substring(1, remoteAddress.toString().indexOf(':'));    		       
     		     		 
-    		  // обработка запроса http://somedomain/hello
+    		  // processing request http://somedomain/hello
     		   if (url.equalsIgnoreCase("/hello")){    			   
     			   String str = "<p align='center'> <font size=14px >Hello world! =)</font></p>";
     			   FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, OK,Unpooled.copiedBuffer(str.toString(),
     								Charset.forName("UTF-8")));
     			   response.headers().set(CONTENT_TYPE, "text/html; charset=UTF-8");       
     			   response.headers().set(CONNECTION, Values.KEEP_ALIVE);              
-    			   DBService.addIpToDB(ip);   //добавить объект Ip в базу данных
+    			   DBService.addIpToDB(ip);   //adding Ip to data base
     	    	   DBService.addUrlToDB(url); 
     			   ctx.write(response);
     		    }
-    		   // обработка запроса http://somedomain/redirect?url=<url>
+    		   // processing request http://somedomain/redirect?url=<url>
     		   else if (url.length()>=14 && url.substring(0,14).equalsIgnoreCase("/redirect?url=")){
     			   	FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, MOVED_PERMANENTLY);
     			  	String u=url.substring(14);
     			    response.headers().set(LOCATION, u);
     			    DBService.addIpToDB(ip); 
-    			    DBService.addUrlToDB(u);              //добавить объект url в базу данных
+    			    DBService.addUrlToDB(u);              //adding Url to data base
     			    ctx.write(response).addListener(ChannelFutureListener.CLOSE);
     		   }
-    		   //обработка запроса http://somedomain/status
+    		   //processing request http://somedomain/status
     		   else if (url.equalsIgnoreCase("/status")){
     			   DBService.addIpToDB(ip); 
-    			   DBService.addUrlToDB(url);            //добавить объект url в базу данных
-    			   int current = Server.getCurrConn();   //открытые соединения
+    			   DBService.addUrlToDB(url);            //adding Url to data base
+    			   int current = Server.getCurrConn();   //opened connections
     			   UrlService urlservice = new UrlService();
     			      			  
     			   StringBuilder str = new StringBuilder();	    			   

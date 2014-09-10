@@ -6,8 +6,8 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.http.HttpServerCodec;
 
 /**
- * Класс для инициализации основного канала сервера.
- * Класс устанавливает обработчики для канала.
+ * Class for initialization of main channel of server.
+ * Setting handlers for channel.
  * @author Kseniia
  *
  */
@@ -15,7 +15,7 @@ public class ServerInitializer extends ChannelInitializer<SocketChannel>  {
 
 	 @Override
      public void initChannel(SocketChannel ch) throws Exception {
-         ChannelPipeline p = ch.pipeline(); //пул обработчиков
+         ChannelPipeline p = ch.pipeline(); //pipeline of handlers
          p.addLast(new HttpServerCodec());  
          p.addLast(new ServerHandler());  
      }

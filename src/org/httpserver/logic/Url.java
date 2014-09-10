@@ -19,7 +19,7 @@ import javax.persistence.Table;
 
 
 /**
- * Класс для описания сущности Url
+ * Url
  * @author Kseniia
  *
  */
@@ -69,7 +69,7 @@ public class Url implements Serializable{
 		this.data = data;
 	}
 	
-	//объединение таблиц (many-to-many)
+	//joining tables (many-to-many)
 	@ManyToMany(cascade=CascadeType.ALL)
 	@JoinTable(name = "ip_url",
 	joinColumns = {

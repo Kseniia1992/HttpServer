@@ -7,15 +7,15 @@ import org.httpserver.logic.Url;
 import org.httpserver.logic.UrlData;
 
 /**
- * Класс для добавления данных в БД
+ * Class for adding data to data base
  * @author Kseniia
  *
  */
 public class DBService {
 
 	/**
-	 * Метод добавляет Ip адрес в базу данных
-	 * @param ip - Ip адрес
+	 * Adding Ip address to db 
+	 * @param ip - Ip address
 	 */
 	@SuppressWarnings("unchecked")
 	public static void addIpToDB(String ip){
@@ -29,7 +29,7 @@ public class DBService {
 	}
 	
 	/**
-	 * Метод добавляет Url в базу данных
+	 * Adding Url to db
 	 * @param url
 	 */
 	@SuppressWarnings("unchecked")

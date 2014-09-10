@@ -15,7 +15,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 /**
- * Класс для описания сущности Ip
+ * Ip
  * @author Kseniia
  *
  */
@@ -48,7 +48,7 @@ public class Ip  implements Serializable {
 		this.ip = ip;
 	}
 	
-	//объединение таблиц (many-to-many)
+	//joining tables (many-to-many)
 	@ManyToMany(cascade=CascadeType.ALL)
 	@JoinTable(name = "ip_url",
 	joinColumns = {

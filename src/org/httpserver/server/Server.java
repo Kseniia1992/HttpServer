@@ -7,18 +7,17 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
 /**
- * Основной класс http сервера, который возвращает контент 
- * на полученный http запрос 
+ * Main class of http server, which returns content * 
  * @author Kseniia
  *
  */
 public class Server {
-	static final int port = 8080;	 //порт
-	private static int currConn = 0; //текущее соединение	 
+	static final int port = 8080;	 //port
+	private static int currConn = 0; //current connection	 
     
 	/**
-	 * Счетчик открытых соединений
-	 * @return currConn - количество открытых соединений
+	 * Counter of opened connections
+	 * @return currConn - count of opened connections
 	 */
 	 public static int getCurrConn() {
 	    	return currConn++;
@@ -30,8 +29,7 @@ public class Server {
 	 * @throws Exception
 	 */
     public static void main(String[] args) throws Exception {
-    	//Конфигурация сервера
-        EventLoopGroup bossGroup = new NioEventLoopGroup();
+    	EventLoopGroup bossGroup = new NioEventLoopGroup();
         EventLoopGroup workerGroup = new NioEventLoopGroup();
         try {
             ServerBootstrap b = new ServerBootstrap();

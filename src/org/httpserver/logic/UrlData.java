@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 
 /**
- * Класс для получения даты и времени(Timestamp) запроса к http серверу
+ * Getting data and time (Timestamp)of request to http server
  * @author Kseniia
  *
  */
@@ -12,7 +12,7 @@ public class UrlData {
 	
 	/**
 	 * 
-	 * @return t - время запроса типа Timestamp 
+	 * @return t - data and time of request 
 	 */
 	public static Timestamp getTimestamp(){
 		Calendar calendar = Calendar.getInstance();
